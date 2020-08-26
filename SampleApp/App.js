@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     color: Colors.dark,
     fontSize: 12,
     fontWeight: '600',
-    padding: 4,
+    padding: 5,
     paddingRight: 12,
     textAlign: 'right',
   },
