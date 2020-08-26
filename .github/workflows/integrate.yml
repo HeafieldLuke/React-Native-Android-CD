@@ -1,0 +1,52 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [ master ]
+    paths: "SampleApp/**"
+  pull_request:
+    branches: [ master ]
+    paths: "SampleApp/**"
+
+jobs:
+  build_and_test:
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12
+    - name: npm install
+      working-directory: ./SampleApp
+      run: npm ci
+    
+    - name: npm build
+      working-directory: ./SampleApp
+      run: npm run build --if-present
+      
+    - name: npm test
+      working-directory: ./SampleApp
+      run: npm test
+
+    build_android:
+      needs: build_and_test
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2
+        - name: Install dependencies
+        working-directory: ./SampleApp
+        run: npm install
+        - name: Build Android release
+        working-directory: ./SampleApp
+        run: |
+          cd android && ./gradlew assembleRelease -
+          PMYAPP_UPLOAD_STORE_PASSWORD='${{ secrets.KEYSTORE_PASSWORD }}' -
+          PMYAPP_UPLOAD_KEY_PASSWORD= '{{ secrets.KEYSTORE_PASSWORD }}'
+        - name: Upload Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: app-release.apk
+          path: SampleApp/android/app/build/outputs/apk/release
