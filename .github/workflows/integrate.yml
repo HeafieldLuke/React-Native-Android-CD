@@ -31,21 +31,19 @@ jobs:
       working-directory: ./SampleApp
       run: npm test
 
-    build_android:
-      needs: build_and_test
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v2
-        - name: Install dependencies
+  build_android:
+    needs: build_and_test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
         working-directory: ./SampleApp
         run: npm install
-        - name: Build Android release
+      - name: Build Android release
         working-directory: ./SampleApp
         run: |
-          cd android && ./gradlew assembleRelease -
-          PMYAPP_UPLOAD_STORE_PASSWORD='${{ secrets.KEYSTORE_PASSWORD }}' -
-          PMYAPP_UPLOAD_KEY_PASSWORD= '{{ secrets.KEYSTORE_PASSWORD }}'
-        - name: Upload Artifact
+          cd android && ./gradlew assembleRelease -PMYAPP_UPLOAD_STORE_PASSWORD='${{ secrets.KEYSTORE_PASSWORD }}' -PMYAPP_UPLOAD_KEY_PASSWORD='${{ secrets.KEYSTORE_PASSWORD }}'
+      - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
           name: app-release.apk
