@@ -23,7 +23,7 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-
+//trigger the build
 const App: () => React$Node = () => {
   return (
     <>
