@@ -12,12 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        
-      - name: Download app artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: app-release.aab
-          
-          
+      - name: Install dependencies
+        working-directory: ./SampleApp
+        run: npm install
+      - name: Build Android release
+        working-directory: ./SampleApp
+        run: |
+          cd android && ./gradlew bundleRelease
       - name: display structure
-        run: ls -R
+        working-directory: ./SampleApp/android/app/build/outputs/bundle/release/
+        run: ls
