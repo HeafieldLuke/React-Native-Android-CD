@@ -43,6 +43,9 @@ jobs:
         working-directory: ./SampleApp
         run: |
           cd android && ./gradlew bundleRelease
+      - name: Check artifact
+        working-directory: ./SampleApp/android/app/build/outputs/bundle/release/
+        run: ls
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
