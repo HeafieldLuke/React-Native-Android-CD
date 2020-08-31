@@ -16,7 +16,7 @@ jobs:
       - name: Download app artifact
         uses: actions/download-artifact@v2
         with:
-          name: app.aab
+          name: app-release.aab
           
           
       - name: display structure
