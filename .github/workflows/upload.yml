@@ -18,5 +18,4 @@ jobs:
           
           
       - name: display structure
-        with:
-          name: ls -r
+        run: ls -R
